@@ -8,19 +8,26 @@
 import UIKit
 
 class CharactersViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let service = MarvelAPI()
-        service.get { result in
-            switch result {
-            case let .failure(error):
-                print(error)
-            case let .success(data):
-                print(data)
-            }
-        }
+        
+        self.view.backgroundColor = .white
+        
+        addComponents()
+//        addConstraints()
     }
-
+    
+    private func addComponents() {
+//        self.view.addSubview(tabBar)
+    }
+    
+//    private func addConstraints() {
+//        let constraint = [
+//            self.view.bottomAnchor.constraint(equalTo: tabBar.safeAreaLayoutGuide.bottomAnchor)
+//        ]
+//
+//        constraint.forEach { item in
+//            item.isActive =  true
+//        }
+//    }
 }
