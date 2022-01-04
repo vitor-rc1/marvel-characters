@@ -1,0 +1,21 @@
+PODS:
+  - SwiftHash (2.0.2)
+
+DEPENDENCIES:
+  - SwiftHash (from `https://github.com/onmyway133/SwiftHash`)
+
+EXTERNAL SOURCES:
+  SwiftHash:
+    :git: https://github.com/onmyway133/SwiftHash
+
+CHECKOUT OPTIONS:
+  SwiftHash:
+    :commit: cf58096d48a99c1f9b60a4c8a1b5ee1a0553397a
+    :git: https://github.com/onmyway133/SwiftHash
+
+SPEC CHECKSUMS:
+  SwiftHash: 6d312abe61c8359bdef8d0093642f3a70b1c17ba
+
+PODFILE CHECKSUM: fd8f0f54b94936c87b89f99c32da2044ba986f07
+
+COCOAPODS: 1.11.2
