@@ -10,9 +10,9 @@ import UIKit
 class CardCollectionViewCell: UICollectionViewCell {
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "hulk")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -26,6 +26,14 @@ class CardCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.imageView?.tintColor = .systemYellow
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addComponents()
@@ -35,6 +43,7 @@ class CardCollectionViewCell: UICollectionViewCell {
     private func addComponents() {
         contentView.addSubview(characterImage)
         contentView.addSubview(characterName)
+        contentView.addSubview(favoriteButton)
     }
     
     private func addConstraints() {
@@ -42,10 +51,14 @@ class CardCollectionViewCell: UICollectionViewCell {
             characterImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             characterImage.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
             characterImage.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            
             characterName.topAnchor.constraint(equalTo: characterImage.bottomAnchor),
             characterName.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
             characterName.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
-            characterName.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor)
+            
+            favoriteButton.topAnchor.constraint(equalTo: characterImage.bottomAnchor),
+            favoriteButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
     

@@ -8,11 +8,12 @@
 import UIKit
 
 class FavoritesViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = .gray
+        
     }
-
+    
 }
