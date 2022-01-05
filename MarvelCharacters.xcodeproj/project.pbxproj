@@ -15,6 +15,8 @@
 		3B160DA52783635500B7DD64 /* MarvelCharactersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B160DA42783635500B7DD64 /* MarvelCharactersTests.swift */; };
 		3B160DAF2783635500B7DD64 /* MarvelCharactersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B160DAE2783635500B7DD64 /* MarvelCharactersUITests.swift */; };
 		3B160DB12783635500B7DD64 /* MarvelCharactersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B160DB02783635500B7DD64 /* MarvelCharactersUITestsLaunchTests.swift */; };
+		3B38947827860953003762D9 /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38947727860953003762D9 /* CardCollectionViewCell.swift */; };
+		3B38947A27863505003762D9 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38947927863505003762D9 /* CollectionView.swift */; };
 		3BBBC3DB27836ED6006E5E31 /* MarvelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBC3DA27836ED6006E5E31 /* MarvelAPI.swift */; };
 		3BBBC3DE278370F3006E5E31 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBC3DD278370F3006E5E31 /* ServiceError.swift */; };
 		3BBBC3E0278371B5006E5E31 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */; };
@@ -64,6 +66,8 @@
 		3B160DAA2783635500B7DD64 /* MarvelCharactersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelCharactersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B160DAE2783635500B7DD64 /* MarvelCharactersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCharactersUITests.swift; sourceTree = "<group>"; };
 		3B160DB02783635500B7DD64 /* MarvelCharactersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCharactersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3B38947727860953003762D9 /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
+		3B38947927863505003762D9 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		3BBBC3DA27836ED6006E5E31 /* MarvelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelAPI.swift; sourceTree = "<group>"; };
 		3BBBC3DD278370F3006E5E31 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
@@ -130,12 +134,12 @@
 		3B160D892783635300B7DD64 /* MarvelCharacters */ = {
 			isa = PBXGroup;
 			children = (
-				3BBBC3E127839904006E5E31 /* Helpers */,
 				3BBBC3D92783677C006E5E31 /* Application */,
+				3BBBC3E127839904006E5E31 /* Helpers */,
 				3BBBC3D82783672C006E5E31 /* Models */,
 				3BBBC3D52783670E006E5E31 /* Services */,
-				3BBBC3D627836715006E5E31 /* Views */,
 				3BBBC3D72783671C006E5E31 /* ViewModel */,
+				3BBBC3D627836715006E5E31 /* Views */,
 				3B160D962783635400B7DD64 /* Assets.xcassets */,
 				3B160D9B2783635400B7DD64 /* Info.plist */,
 				3B160D932783635300B7DD64 /* MarvelCharacters.xcdatamodeld */,
@@ -172,10 +176,12 @@
 		3BBBC3D627836715006E5E31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
 				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
-				3BEC81872784C25B0080612D /* TabBarController.swift */,
 				3BEC81892784D9F10080612D /* FavoritesViewController.swift */,
+				3BEC81872784C25B0080612D /* TabBarController.swift */,
+				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
+				3B38947727860953003762D9 /* CardCollectionViewCell.swift */,
+				3B38947927863505003762D9 /* CollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -486,6 +492,8 @@
 				3BBBC3DE278370F3006E5E31 /* ServiceError.swift in Sources */,
 				3B160D952783635300B7DD64 /* MarvelCharacters.xcdatamodeld in Sources */,
 				3BEC81882784C25B0080612D /* TabBarController.swift in Sources */,
+				3B38947827860953003762D9 /* CardCollectionViewCell.swift in Sources */,
+				3B38947A27863505003762D9 /* CollectionView.swift in Sources */,
 				3BEC817C278488790080612D /* MarvelAPIResponse.swift in Sources */,
 				3BEC817A2784885F0080612D /* MarvelCharacter.swift in Sources */,
 				3BEC818A2784D9F10080612D /* FavoritesViewController.swift in Sources */,
