@@ -12,11 +12,14 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         addComponents()
 //        addConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.navigationItem.title = "Characters"
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,10 +60,6 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 }
