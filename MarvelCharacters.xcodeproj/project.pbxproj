@@ -174,11 +174,11 @@
 		3BBBC3D627836715006E5E31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3B38947727860953003762D9 /* CardCollectionViewCell.swift */,
 				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
 				3BEC81892784D9F10080612D /* FavoritesViewController.swift */,
 				3BEC81872784C25B0080612D /* TabBarController.swift */,
 				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
-				3B38947727860953003762D9 /* CardCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
