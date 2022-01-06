@@ -11,20 +11,39 @@ struct CharactersViewModel {
     
     private let service: MarvelAPI!
     
-    var onErrorHandling: ((String?) -> Void)?
+    var onErrorHandling: ((String) -> Void)?
     
     init(service: MarvelAPI = MarvelAPI()) {
         self.service = service
     }
     
-    func fetchCharacters(page: Int = 0, callback: @escaping ([MarvelCharacter]) -> Void){
+    func fetchCharacters(page: Int = 0, callback: @escaping ([[String: Any]]) -> Void){
         service.get(page: page) { result in
             switch result {
             case let .failure(error):
-                print(error)
+                switch error {
+                case .network(let error):
+                    if let errorMessage = error?.localizedDescription {
+                        onErrorHandling?(errorMessage)
+                    }
+                case .decodeFail(let error):
+                    print(error.localizedDescription)
+                case .invalidURL:
+                    print("Invalid URL")
+                }
             case let .success(data):
-                let characters = data.data.results
-                callback(characters)
+                var charactersDictionary: [[String: Any]] = []
+                for character in data.data.results {
+                    let dictionary = [
+                        "id": character.id,
+                        "name": character.name,
+                        "url": character.thumbnail.url
+                    ] as [String : Any]
+                    charactersDictionary.append(dictionary)
+                }
+                
+                callback(charactersDictionary)
+                
             }
         }
     }

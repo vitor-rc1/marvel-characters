@@ -10,18 +10,29 @@ import UIKit
 class CardCollectionViewCell: UICollectionViewCell {
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.image = UIImage(named: "default-image")
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    private lazy var horizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     lazy var characterName: UILabel = {
         let label = UILabel()
         label.tintColor = .black
-        label.font = .systemFont(ofSize: 18)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 15)
+        label.textAlignment = .left
         return label
     }()
     
@@ -30,7 +41,6 @@ class CardCollectionViewCell: UICollectionViewCell {
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.imageView?.tintColor = .systemYellow
         button.addTarget(self, action: #selector(favorite), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -38,27 +48,35 @@ class CardCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         addComponents()
         addConstraints()
+        setViewStyle()
+    }
+    
+    private func setViewStyle() {
+        contentView.layer.borderColor = CGColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)
+        contentView.layer.borderWidth = 0.7
+        contentView.layer.cornerRadius = 10
     }
     
     private func addComponents() {
         contentView.addSubview(characterImage)
-        contentView.addSubview(characterName)
-        contentView.addSubview(favoriteButton)
+        contentView.addSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(characterName)
+        horizontalStackView.addArrangedSubview(favoriteButton)
     }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            characterImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-            characterImage.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
-            characterImage.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            characterImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
+            characterImage.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            characterImage.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            characterImage.bottomAnchor.constraint(equalTo: horizontalStackView.topAnchor, constant: -10),
             
-            characterName.topAnchor.constraint(equalTo: characterImage.bottomAnchor),
-            characterName.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            characterName.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            favoriteButton.topAnchor.constraint(equalTo: characterImage.bottomAnchor),
-            favoriteButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            favoriteButton.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 30),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     
