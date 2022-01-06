@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CharactersViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private var viewModel: CharactersViewModel!
     private var characters: [MarvelCharacter] = []
+    private var page = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +22,9 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         addComponents()
-//        addConstraints()
+        addConstraints()
         
-        loadCharacters()
+        loadCharacters(page: page)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,9 +37,16 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        let character = characters[indexPath.row]
         
+        if (indexPath.row == characters.count - 1 ) {
+            page += 1
+            loadCharacters(page: page)
+        }
+        print(indexPath.row)
+        let character = characters[indexPath.row]
+        let url = URL(string: character.thumbnail.url)
         cell.characterName.text = character.name
+        cell.characterImage.sd_setImage(with: url, completed: nil)
         return cell
     }
     
@@ -70,12 +79,16 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
     
-    private func loadCharacters() {
-        viewModel.fetchCharacters { characters in
-            self.characters = characters
+    private func loadCharacters(page: Int) {
+        viewModel.fetchCharacters(page: page) { characters in
+            self.characters.append(contentsOf: characters)
             print(characters.count)
             DispatchQueue.main.sync {
                 self.collectionView.reloadData()

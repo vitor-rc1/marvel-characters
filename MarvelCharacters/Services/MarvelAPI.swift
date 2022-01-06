@@ -13,6 +13,8 @@ public class MarvelAPI {
     private var publicKey: String = ""
     private var privateKey: String = ""
     
+    private let limit = 20
+    
     init(){
         if
             let publicKey = ProcessInfo.processInfo.environment["publicKey"],
@@ -23,8 +25,9 @@ public class MarvelAPI {
         }
     }
     
-    func get(callback: @escaping (Result<MarvelResponse, ServiceError>) -> Void) {
-        let path = "\(baseURL)orderBy=name&\(getCredentials())"
+    func get(page: Int = 0, callback: @escaping (Result<MarvelResponse, ServiceError>) -> Void) {
+        let offset = limit * page
+        let path = "\(baseURL)orderBy=name&\(getCredentials())&offset=\(offset)&limit=\(limit)"
         guard let url = URL(string: path) else {
             callback(.failure(.invalidURL))
             return

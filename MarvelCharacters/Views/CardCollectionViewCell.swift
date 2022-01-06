@@ -11,14 +11,13 @@ class CardCollectionViewCell: UICollectionViewCell {
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "hulk")
+        imageView.image = UIImage(named: "default-image")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     lazy var characterName: UILabel = {
         let label = UILabel()
-        label.text = "Hulk"
         label.tintColor = .black
         label.font = .systemFont(ofSize: 18)
         label.textAlignment = .center
