@@ -8,15 +8,24 @@
 import Foundation
 
 struct CharactersViewModel {
-    init() {
-//        let service = MarvelAPI()
-//        service.get { result in
-//            switch result {
-//            case let .failure(error):
-//                print(error)
-//            case let .success(data):
-//                print(data)
-//            }
-//        }
+    
+    private let service: MarvelAPI!
+    
+    var onErrorHandling: ((String?) -> Void)?
+    
+    init(service: MarvelAPI = MarvelAPI()) {
+        self.service = service
+    }
+    
+    func fetchCharacters(callback: @escaping ([MarvelCharacter]) -> Void){
+        service.get { result in
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(data):
+                let characters = data.data.results
+                callback(characters)
+            }
+        }
     }
 }

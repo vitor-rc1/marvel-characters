@@ -26,10 +26,11 @@ class CardCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var favoriteButton: UIButton = {
+    lazy var favoriteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.imageView?.tintColor = .systemYellow
+        button.addTarget(self, action: #selector(favorite), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -64,5 +65,9 @@ class CardCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func favorite() {
+        print("favoritou")
     }
 }
