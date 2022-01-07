@@ -8,6 +8,9 @@
 import UIKit
 
 class CardCollectionViewCell: UICollectionViewCell {
+    
+    var characterId: Int!
+    
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
@@ -85,6 +88,8 @@ class CardCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func favorite() {
-        print("favoritou")
+        let storage = CoreDataStorage.shared
+        
+        storage.saveCharacter(name: "asa", id: 10, url: "choro")
     }
 }
