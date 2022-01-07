@@ -8,8 +8,9 @@
 import UIKit
 
 class CardCollectionViewCell: UICollectionViewCell {
-    
+    private let storage = CoreDataStorage.shared
     var characterId: Int!
+    var isCharacterFavorite: Bool = false
     
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
@@ -88,8 +89,20 @@ class CardCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func favorite() {
-        let storage = CoreDataStorage.shared
-        
-        storage.saveCharacter(name: "asa", id: 10, url: "choro")
+        if !isCharacterFavorite {
+            guard
+                let name = characterName.text,
+                let _ = characterImage.image
+            else {
+                return
+            }
+            storage.saveCharacter(name: name, id: characterId, url: "choro")
+            favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            isCharacterFavorite = true
+        } else {
+            storage.removeCharacter(id: characterId)
+            favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+            isCharacterFavorite = false
+        }
     }
 }

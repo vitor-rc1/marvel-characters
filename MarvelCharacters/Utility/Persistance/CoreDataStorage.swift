@@ -32,4 +32,35 @@ public class CoreDataStorage {
             print("An error has occurred.")
         }
     }
+    
+    func removeCharacter(id: Int){
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        let filter = NSPredicate(format: "id = %d", id)
+        request.predicate = filter
+        do {
+            let characters = (try context.fetch(request)) as! [NSManagedObject]
+            if let character = characters.first {
+                context.delete(character)
+                try context.save()
+            }
+            
+        } catch  {
+            print("An error has occurred.")
+        }
+    }
+    
+    func checkFavoriteCharacter(id: Int) -> Bool {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        let filter = NSPredicate(format: "id = %d", id)
+        request.predicate = filter
+        do {
+            let character = try context.fetch(request)
+            if character.count > 0 {
+                return true
+            }
+        } catch  {
+            print("An error has occurred.")
+        }
+        return false
+    }
 }
