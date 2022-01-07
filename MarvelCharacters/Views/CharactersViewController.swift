@@ -7,9 +7,10 @@
 
 import UIKit
 import SDWebImage
+import CoreData
 
 class CharactersViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
+    private let storage = CoreDataStorage.shared
     private var viewModel: CharactersViewModel!
     private var characters: [[String: Any]] = []
     private var page = 0
@@ -50,12 +51,20 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
             loadCharacters(page: page)
         }
         let character = characters[indexPath.row]
+        let id = character["id"] as! Int
         let name = character["name"] as! String
         let urlString = character["url"] as! String
         let url = URL(string: urlString)
+        let isCharacterFavorite = storage.checkFavoriteCharacter(id: id)
         
         cell.characterName.text = name
         cell.characterImage.sd_setImage(with: url, completed: nil)
+        cell.characterId = id
+        cell.isCharacterFavorite = isCharacterFavorite
+        if isCharacterFavorite {
+            cell.favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+        
         return cell
     }
     
