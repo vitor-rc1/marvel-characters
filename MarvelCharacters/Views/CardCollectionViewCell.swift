@@ -55,6 +55,10 @@ class CardCollectionViewCell: UICollectionViewCell {
         setViewStyle()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setViewStyle() {
         contentView.layer.borderColor = CGColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)
         contentView.layer.borderWidth = 0.7
@@ -82,10 +86,6 @@ class CardCollectionViewCell: UICollectionViewCell {
             favoriteButton.widthAnchor.constraint(equalToConstant: 30),
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     @objc private func favorite() {

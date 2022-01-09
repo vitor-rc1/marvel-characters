@@ -30,7 +30,7 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        collectionView.reloadData()
+        collectionView.reloadData()
     }
     
     func errorHandling(message: String) {
@@ -67,6 +67,8 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
         cell.isCharacterFavorite = isCharacterFavorite
         if isCharacterFavorite {
             cell.favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        } else {
+            cell.favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
         }
         
         return cell

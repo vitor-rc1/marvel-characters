@@ -66,7 +66,8 @@ public class CoreDataStorage {
     
     func getCharacters() -> [NSManagedObject] {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
-        
+        let order = NSSortDescriptor(key: "name", ascending: false)
+        request.sortDescriptors = [order]
         do {
             let characters = try context.fetch(request)
             
