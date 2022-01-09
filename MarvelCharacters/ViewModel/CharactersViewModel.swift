@@ -18,7 +18,7 @@ struct CharactersViewModel {
     }
     
     func fetchCharacters(page: Int = 0, callback: @escaping ([[String: Any]]) -> Void){
-        service.get(page: page) { result in
+        service.get(page: page) { (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
             switch result {
             case let .failure(error):
                 switch error {

@@ -26,7 +26,6 @@ class TabBarController: UITabBarController {
         favoritesVC.tabBarItem.image = UIImage(systemName: "star")
         
         self.setViewControllers([characterVC, favoritesVC], animated: false)
-//        self.setViewControllers([favoritesVC, characterVC], animated: false)
     }
 
 }
