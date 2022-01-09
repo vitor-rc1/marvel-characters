@@ -55,6 +55,10 @@ class CardCollectionViewCell: UICollectionViewCell {
         setViewStyle()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setViewStyle() {
         contentView.layer.borderColor = CGColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)
         contentView.layer.borderWidth = 0.7
@@ -84,19 +88,15 @@ class CardCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     @objc private func favorite() {
         if !isCharacterFavorite {
             guard
                 let name = characterName.text,
-                let _ = characterImage.image
+                let image = characterImage.image?.pngData()
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: characterId, url: "choro")
+            storage.saveCharacter(name: name, id: characterId, image: image)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             isCharacterFavorite = true
         } else {

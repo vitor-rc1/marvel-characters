@@ -19,11 +19,11 @@ public class CoreDataStorage {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func saveCharacter(name: String, id: Int, url: String) {
+    func saveCharacter(name: String, id: Int, image: Data) {
         let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context)
         character.setValue(name, forKey: "name")
         character.setValue(id, forKey: "id")
-        character.setValue(url, forKey: "url")
+        character.setValue(image, forKey: "img")
         // salvar
         do {
             try context.save()
@@ -62,5 +62,21 @@ public class CoreDataStorage {
             print("An error has occurred.")
         }
         return false
+    }
+    
+    func getCharacters() -> [NSManagedObject] {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        let order = NSSortDescriptor(key: "name", ascending: false)
+        request.sortDescriptors = [order]
+        do {
+            let characters = try context.fetch(request)
+            
+            if characters.count > 0 {
+                return characters as! [NSManagedObject]
+            }
+        } catch  {
+            print("An error has occurred.")
+        }
+        return []
     }
 }
