@@ -96,7 +96,7 @@ class CardCollectionViewCell: UICollectionViewCell {
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: characterId, url: "choro")
+            storage.saveCharacter(name: name, id: characterId, url: "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg")
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             isCharacterFavorite = true
         } else {

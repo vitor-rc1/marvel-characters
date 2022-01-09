@@ -29,6 +29,10 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
         loadCharacters(page: page)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+//        collectionView.reloadData()
+    }
+    
     func errorHandling(message: String) {
         let controller = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
@@ -69,7 +73,7 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(FavoritesViewController(), animated: true)
+        navigationController?.pushViewController(CharacterDetailsViewController(), animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

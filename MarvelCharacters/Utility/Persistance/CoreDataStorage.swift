@@ -63,4 +63,19 @@ public class CoreDataStorage {
         }
         return false
     }
+    
+    func getCharacters() -> [NSManagedObject] {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        
+        do {
+            let characters = try context.fetch(request)
+            
+            if characters.count > 0 {
+                return characters as! [NSManagedObject]
+            }
+        } catch  {
+            print("An error has occurred.")
+        }
+        return []
+    }
 }

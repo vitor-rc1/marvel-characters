@@ -17,7 +17,7 @@ class TabBarController: UITabBarController {
     
     private func controllersTabBar() {
         let characterVC = CharactersViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        let favoritesVC = FavoritesViewController()
+        let favoritesVC = FavoritesViewController(collectionViewLayout: UICollectionViewFlowLayout())
         
         characterVC.title = "Characters"
         favoritesVC.title = "Favorites"
@@ -25,7 +25,8 @@ class TabBarController: UITabBarController {
         characterVC.tabBarItem.image = UIImage(systemName: "person.3")
         favoritesVC.tabBarItem.image = UIImage(systemName: "star")
         
-        self.setViewControllers([characterVC, favoritesVC], animated: false)
+//        self.setViewControllers([characterVC, favoritesVC], animated: false)
+        self.setViewControllers([favoritesVC, characterVC], animated: false)
     }
 
 }
