@@ -35,6 +35,7 @@ struct CharactersDetailsViewModel {
                 let character = data.data.results[0]
                 let characterDictionary: [String: Any] = [
                         "id": character.id,
+                        "description": character.description,
                         "name": character.name,
                         "url": character.thumbnail.url
                     ] as [String : Any]
@@ -63,7 +64,7 @@ struct CharactersDetailsViewModel {
                 for character in data.data.results {
                     let dictionary = [
                         "id": character.id,
-                        "name": character.title,
+                        "title": character.title,
                         "url": character.thumbnail.url
                     ] as [String : Any]
                     charactersDictionary.append(dictionary)

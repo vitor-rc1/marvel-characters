@@ -36,6 +36,7 @@ struct CharactersViewModel {
                 for character in data.data.results {
                     let dictionary = [
                         "id": character.id,
+                        "description": character.description,
                         "name": character.name,
                         "url": character.thumbnail.url
                     ] as [String : Any]

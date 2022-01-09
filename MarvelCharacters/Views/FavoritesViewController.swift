@@ -55,8 +55,11 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(CharacterDetailsViewController(), animated: true)
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {let character = characters[indexPath.row]
+        let id = character.value(forKey: "id") as! Int
+        let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        characterDetailsVC.characterId = id
+        navigationController?.pushViewController(characterDetailsVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
