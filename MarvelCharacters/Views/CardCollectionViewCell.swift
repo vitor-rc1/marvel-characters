@@ -92,11 +92,11 @@ class CardCollectionViewCell: UICollectionViewCell {
         if !isCharacterFavorite {
             guard
                 let name = characterName.text,
-                let _ = characterImage.image
+                let image = characterImage.image?.pngData()
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: characterId, url: "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg")
+            storage.saveCharacter(name: name, id: characterId, image: image)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             isCharacterFavorite = true
         } else {

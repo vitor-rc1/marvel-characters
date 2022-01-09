@@ -44,11 +44,10 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
         let character = characters[indexPath.row]
         let id = character.value(forKey: "id") as! Int
         let name = character.value(forKey: "name") as! String
-        let urlString = character.value(forKey: "url") as! String
-        let url = URL(string: urlString)
+        let image = character.value(forKey: "img") as! Data
         
         cell.characterName.text = name
-        cell.characterImage.sd_setImage(with: url, completed: nil)
+        cell.characterImage.image = UIImage(data: image)
         cell.characterId = id
         cell.isCharacterFavorite = true
         cell.favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)

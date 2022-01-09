@@ -19,11 +19,11 @@ public class CoreDataStorage {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func saveCharacter(name: String, id: Int, url: String) {
+    func saveCharacter(name: String, id: Int, image: Data) {
         let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context)
         character.setValue(name, forKey: "name")
         character.setValue(id, forKey: "id")
-        character.setValue(url, forKey: "url")
+        character.setValue(image, forKey: "img")
         // salvar
         do {
             try context.save()
