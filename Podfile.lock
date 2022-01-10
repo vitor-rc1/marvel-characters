@@ -1,0 +1,30 @@
+PODS:
+  - SDWebImage/Core (5.12.2)
+  - SDWebImage/MapKit (5.12.2):
+    - SDWebImage/Core
+  - SwiftHash (2.0.2)
+
+DEPENDENCIES:
+  - SDWebImage/MapKit
+  - SwiftHash (from `https://github.com/onmyway133/SwiftHash`)
+
+SPEC REPOS:
+  trunk:
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  SwiftHash:
+    :git: https://github.com/onmyway133/SwiftHash
+
+CHECKOUT OPTIONS:
+  SwiftHash:
+    :commit: cf58096d48a99c1f9b60a4c8a1b5ee1a0553397a
+    :git: https://github.com/onmyway133/SwiftHash
+
+SPEC CHECKSUMS:
+  SDWebImage: 240e5c12b592fb1268c1d03b8c90d90e8c2ffe82
+  SwiftHash: 6d312abe61c8359bdef8d0093642f3a70b1c17ba
+
+PODFILE CHECKSUM: 5a92b45e3253c3624b2d6c24e39ee61862f70b71
+
+COCOAPODS: 1.11.2
