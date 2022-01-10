@@ -75,7 +75,11 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.pushViewController(CharacterDetailsViewController(), animated: true)
+        let character = characters[indexPath.row]
+        let id = character["id"] as! Int
+        let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        characterDetailsVC.characterId = id
+        navigationController?.pushViewController(characterDetailsVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
