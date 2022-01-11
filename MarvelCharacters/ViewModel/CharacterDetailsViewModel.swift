@@ -17,7 +17,7 @@ struct CharactersDetailsViewModel {
         self.service = service
     }
     
-    func fetchCharacter(id: Int, callback: @escaping ([String: Any]) -> Void){
+    func fetchCharacter(id: Int, callback: @escaping (MarvelCharacter) -> Void){
         service.getById(id: id) { (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
             switch result {
             case let .failure(error):
@@ -32,20 +32,14 @@ struct CharactersDetailsViewModel {
                     print("Invalid URL")
                 }
             case let .success(data):
-                let character = data.data.results[0]
-                let characterDictionary: [String: Any] = [
-                    "id": character.id,
-                    "description": character.description,
-                    "name": character.name,
-                    "url": character.thumbnail.url
-                ] as [String : Any]
-                callback(characterDictionary)
-                
+                if let character = data.data.results.first {
+                    callback(character)
+                }
             }
         }
     }
     
-    func fetchCharacterMidias(id: Int, specification: String, callback: @escaping ([[String: Any]]) -> Void){
+    func fetchCharacterMidias(id: Int, specification: String, callback: @escaping ([MarvelCharacterMidia]) -> Void){
         service.getById(id: id, specification: specification) { (result: Result<MarvelResponse<MarvelCharacterMidia>, ServiceError>) in
             switch result {
             case let .failure(error):
@@ -60,18 +54,7 @@ struct CharactersDetailsViewModel {
                     print("Invalid URL")
                 }
             case let .success(data):
-                var charactersDictionary: [[String: Any]] = []
-                for character in data.data.results {
-                    let dictionary = [
-                        "id": character.id,
-                        "title": character.title,
-                        "url": character.thumbnail.url
-                    ] as [String : Any]
-                    charactersDictionary.append(dictionary)
-                }
-                
-                callback(charactersDictionary)
-                
+                callback(data.data.results)
             }
         }
     }

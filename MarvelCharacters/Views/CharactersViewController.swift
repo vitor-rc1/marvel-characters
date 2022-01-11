@@ -63,7 +63,7 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
         let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        characterDetailsVC.characterId = character.id
+        characterDetailsVC.character = character
         navigationController?.pushViewController(characterDetailsVC, animated: true)
     }
     

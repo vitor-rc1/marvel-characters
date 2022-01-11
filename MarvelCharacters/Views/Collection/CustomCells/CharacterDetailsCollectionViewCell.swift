@@ -39,6 +39,21 @@ class CharacterDetailsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func buildCell(_ character: MarvelCharacter) {
+        characterDescription.text = character.verifiedDescription
+        let thumbUrl = URL(string: character.thumbnail.url)
+        characterImage.sd_setImage(with: thumbUrl, completed: nil)
+    }
+    
+    func buildCell(_ character: CharacterStorage) {
+        guard let img = character.img else {
+            return
+        }
+        
+        characterDescription.text = character.charDescription
+        characterImage.image = UIImage(data: img)
+    }
+    
     private func addComponents() {
         contentView.addSubview(characterImage)
         contentView.addSubview(characterDescription)

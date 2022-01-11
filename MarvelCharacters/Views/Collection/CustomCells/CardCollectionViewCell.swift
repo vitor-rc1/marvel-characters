@@ -10,11 +10,12 @@ import CoreData
 
 class CardCollectionViewCell: UICollectionViewCell {
     private let storage = CoreDataStorage.shared
-    var characterId: Int!
-    var characterUrlImage: String!
+    var id: Int!
+    var urlImage: String!
+    var descriptionText: String!
     var isFavorite: Bool = false
     
-    lazy var characterImage: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.image = UIImage(named: "default-image")
@@ -34,7 +35,7 @@ class CardCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var characterName: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.tintColor = .black
         label.font = .systemFont(ofSize: 15)
@@ -62,12 +63,12 @@ class CardCollectionViewCell: UICollectionViewCell {
     }
     
     func buildCell(_ character: MarvelCharacter) {
-        characterId = character.id
-        characterName.text = character.name
-        characterUrlImage = character.thumbnail.url
-        
+        id = character.id
+        nameLabel.text = character.name
+        urlImage = character.thumbnail.url
+        descriptionText = character.verifiedDescription
         let thumbUrl = URL(string: character.thumbnail.url)
-        characterImage.sd_setImage(with: thumbUrl, completed: nil)
+        imageView.sd_setImage(with: thumbUrl, completed: nil)
         isFavorite = storage.checkFavoriteCharacter(id: character.id)
         favoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill": "star"), for: .normal)
     }
@@ -77,12 +78,24 @@ class CardCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        characterId = Int(truncating: character.id as NSNumber)
-        characterName.text = character.name
-        characterUrlImage = character.url
-        characterImage.image = UIImage(data: img)
-        isFavorite = storage.checkFavoriteCharacter(id: characterId)
+        id = Int(truncating: character.id as NSNumber)
+        nameLabel.text = character.name
+        urlImage = character.url
+        descriptionText = character.charDescription
+        imageView.image = UIImage(data: img)
+        isFavorite = storage.checkFavoriteCharacter(id: id)
         favoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill": "star"), for: .normal)
+    }
+    
+    func buildCell(_ midia: MarvelCharacterMidia) {
+        id = midia.id
+        nameLabel.text = midia.title
+        urlImage = midia.thumbnail.url
+        descriptionText = midia.description
+        let thumbUrl = URL(string: midia.thumbnail.url)
+        imageView.sd_setImage(with: thumbUrl, completed: nil)
+       
+        favoriteButton.isHidden = true
     }
     
     private func setViewStyle() {
@@ -92,18 +105,18 @@ class CardCollectionViewCell: UICollectionViewCell {
     }
     
     private func addComponents() {
-        contentView.addSubview(characterImage)
+        contentView.addSubview(imageView)
         contentView.addSubview(horizontalStackView)
-        horizontalStackView.addArrangedSubview(characterName)
+        horizontalStackView.addArrangedSubview(nameLabel)
         horizontalStackView.addArrangedSubview(favoriteButton)
     }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            characterImage.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
-            characterImage.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            characterImage.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            characterImage.bottomAnchor.constraint(equalTo: horizontalStackView.topAnchor, constant: -10),
+            imageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            imageView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            imageView.bottomAnchor.constraint(equalTo: horizontalStackView.topAnchor, constant: -10),
             
             horizontalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
             horizontalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
@@ -117,16 +130,17 @@ class CardCollectionViewCell: UICollectionViewCell {
     @objc private func favorite() {
         if !isFavorite {
             guard
-                let name = characterName.text,
-                let image = characterImage.image?.pngData()
+                let name = nameLabel.text,
+                let image = imageView.image?.pngData(),
+                let descriptionText = descriptionText
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: characterId, image: image, url: characterUrlImage)
+            storage.saveCharacter(name: name, id: id, image: image, url: urlImage, descriptionText: descriptionText)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             isFavorite = true
         } else {
-            storage.removeCharacter(id: characterId)
+            storage.removeCharacter(id: id)
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             isFavorite = false
         }

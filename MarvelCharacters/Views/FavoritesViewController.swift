@@ -39,18 +39,15 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        
         let character = characters[indexPath.row]
-        
         cell.buildCell(character)
-        
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {let character = characters[indexPath.row]
-        let id = character.value(forKey: "id") as! Int
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let character = characters[indexPath.row]
         let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        characterDetailsVC.characterId = id
+        characterDetailsVC.characterStorage = character
         navigationController?.pushViewController(characterDetailsVC, animated: true)
     }
     

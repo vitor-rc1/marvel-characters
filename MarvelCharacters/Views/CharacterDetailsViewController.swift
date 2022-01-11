@@ -10,10 +10,10 @@ import UIKit
 class CharacterDetailsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private var viewModel: CharactersDetailsViewModel!
-    private var character: [String: Any]?
-    private var comics: [[String: Any]] = []
-    private var series: [[String: Any]] = []
-    var characterId: Int!
+    private var comics: [MarvelCharacterMidia] = []
+    private var series: [MarvelCharacterMidia] = []
+    var character: MarvelCharacter?
+    var characterStorage: CharacterStorage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,11 +48,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSize.zero
-        }
-        let size = CGSize(width: view.frame.width, height: 50)
-        return size
+        return section == 0 ? CGSize.zero : CGSize(width: view.frame.width, height: 50)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -70,46 +66,25 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if indexPath.section == 1{
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "descriptionCell", for: indexPath) as! CharacterDetailsCollectionViewCell
+            if let character = character  {
+                cell.buildCell(character)
+            } else if let characterStorage = characterStorage {
+                cell.buildCell(characterStorage)
+            }
+            return cell
+        } else if indexPath.section == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
             
             let comic = comics[indexPath.row]
-            let title = comic["title"] as! String
-            let urlString = comic["url"] as! String
-            let url = URL(string: urlString)
-            
-            cell.characterName.text = title
-            cell.characterImage.sd_setImage(with: url, completed: nil)
-            cell.favoriteButton.isHidden = true
+            cell.buildCell(comic)
             return cell
         } else if indexPath.section == 2{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
             
             let serie = series[indexPath.row]
-            let title = serie["title"] as! String
-            let urlString = serie["url"] as! String
-            let url = URL(string: urlString)
-            
-            cell.characterName.text = title
-            cell.characterImage.sd_setImage(with: url, completed: nil)
-            cell.favoriteButton.isHidden = true
-            return cell
-        } else if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "descriptionCell", for: indexPath) as! CharacterDetailsCollectionViewCell
-            guard let character = character else {
-                return cell
-            }
-            
-            var description = character["description"] as! String
-            if description.isEmpty {
-                description = "Sem descrição."
-            }
-            let urlString = character["url"] as! String
-            let url = URL(string: urlString)
-            
-            cell.characterImage.sd_setImage(with: url, completed: nil)
-            cell.characterDescription.text = description
+            cell.buildCell(serie)
             return cell
         }
         
@@ -140,15 +115,15 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     }
     
     private func loadCharacterDetails() {
-        viewModel.fetchCharacter(id: characterId) { character in
-            self.character = character
-            DispatchQueue.main.sync {
-                let name = character["name"] as! String
-                self.title = name
-                self.collectionView.reloadData()
-            }
+        var characterId: Int
+        if let character = character {
+            characterId = character.id
+        } else if let characterStorage = characterStorage {
+            characterId = Int(truncating: characterStorage.id as NSNumber)
+        } else {
+            return
         }
-        
+
         viewModel.fetchCharacterMidias(id: characterId, specification: "comics") { comics in
             self.comics = comics
             DispatchQueue.main.sync {
