@@ -34,11 +34,11 @@ struct CharactersDetailsViewModel {
             case let .success(data):
                 let character = data.data.results[0]
                 let characterDictionary: [String: Any] = [
-                        "id": character.id,
-                        "description": character.description,
-                        "name": character.name,
-                        "url": character.thumbnail.url
-                    ] as [String : Any]
+                    "id": character.id,
+                    "description": character.description,
+                    "name": character.name,
+                    "url": character.thumbnail.url
+                ] as [String : Any]
                 callback(characterDictionary)
                 
             }

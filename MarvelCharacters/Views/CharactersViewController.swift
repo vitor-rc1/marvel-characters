@@ -10,9 +10,8 @@ import SDWebImage
 import CoreData
 
 class CharactersViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    private let storage = CoreDataStorage.shared
     private var viewModel: CharactersViewModel!
-    private var characters: [[String: Any]] = []
+    private var characters: [MarvelCharacter] = []
     private var page = 0
     
     override func viewDidLoad() {
@@ -54,55 +53,41 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
             page += 1
             loadCharacters(page: page)
         }
-        let character = characters[indexPath.row]
-        let id = character["id"] as! Int
-        let name = character["name"] as! String
-        let urlString = character["url"] as! String
-        let url = URL(string: urlString)
-        let isCharacterFavorite = storage.checkFavoriteCharacter(id: id)
         
-        cell.characterName.text = name
-        cell.characterImage.sd_setImage(with: url, completed: nil)
-        cell.characterId = id
-        cell.isCharacterFavorite = isCharacterFavorite
-        if isCharacterFavorite {
-            cell.favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        } else {
-            cell.favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-        }
+        let character = characters[indexPath.row]
+        cell.buildCell(character)
         
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        let id = character["id"] as! Int
         let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        characterDetailsVC.characterId = id
+        characterDetailsVC.characterId = character.id
         navigationController?.pushViewController(characterDetailsVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let yourWidth = (collectionView.bounds.width/2.0) - 5.0
         let yourHeight = yourWidth
-
+        
         return CGSize(width: yourWidth, height: yourHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets.zero
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
     
     private func addComponents() {
-//        self.view.addSubview(collectionView)
+        //        self.view.addSubview(collectionView)
     }
     
     private func addConstraints() {

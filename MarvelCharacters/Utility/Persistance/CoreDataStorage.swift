@@ -19,22 +19,22 @@ public class CoreDataStorage {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func saveCharacter(name: String, id: Int, image: Data) {
-        let character = NSEntityDescription.insertNewObject(forEntityName: "Character", into: context)
-        character.setValue(name, forKey: "name")
-        character.setValue(id, forKey: "id")
-        character.setValue(image, forKey: "img")
-        // salvar
+    func saveCharacter(name: String, id: Int, image: Data, url: String) {
+        let character = CharacterStorage(context: context)
+        character.name = name
+        character.id = Int32(id)
+        character.img = image
+        character.url = url
         do {
             try context.save()
             print("Chracter saved!")
         } catch  {
-            print("An error has occurred.")
+            print(error.localizedDescription)
         }
     }
     
     func removeCharacter(id: Int){
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CharacterStorage")
         let filter = NSPredicate(format: "id = %d", id)
         request.predicate = filter
         do {
@@ -45,12 +45,12 @@ public class CoreDataStorage {
             }
             
         } catch  {
-            print("An error has occurred.")
+            print(error.localizedDescription)
         }
     }
     
     func checkFavoriteCharacter(id: Int) -> Bool {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
+        let request = CharacterStorage.fetchRequest()
         let filter = NSPredicate(format: "id = %d", id)
         request.predicate = filter
         do {
@@ -59,24 +59,24 @@ public class CoreDataStorage {
                 return true
             }
         } catch  {
-            print("An error has occurred.")
+            print(error.localizedDescription)
         }
         return false
     }
     
-    func getCharacters() -> [NSManagedObject] {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Character")
-        let order = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [order]
-        do {
+    func getCharacters() -> [CharacterStorage]{
+        let request = CharacterStorage.fetchRequest()
+        let sortDescritor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortDescritor]
+        
+        do{
             let characters = try context.fetch(request)
             
-            if characters.count > 0 {
-                return characters as! [NSManagedObject]
-            }
-        } catch  {
-            print("An error has occurred.")
+            return characters
+        }catch{
+            print(error.localizedDescription)
         }
+        
         return []
     }
 }

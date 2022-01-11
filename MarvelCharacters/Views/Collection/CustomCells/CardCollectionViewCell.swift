@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class CardCollectionViewCell: UICollectionViewCell {
     private let storage = CoreDataStorage.shared
     var characterId: Int!
-    var isCharacterFavorite: Bool = false
+    var characterUrlImage: String!
+    var isFavorite: Bool = false
     
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
@@ -59,6 +61,30 @@ class CardCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func buildCell(_ character: MarvelCharacter) {
+        characterId = character.id
+        characterName.text = character.name
+        characterUrlImage = character.thumbnail.url
+        
+        let thumbUrl = URL(string: character.thumbnail.url)
+        characterImage.sd_setImage(with: thumbUrl, completed: nil)
+        isFavorite = storage.checkFavoriteCharacter(id: character.id)
+        favoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill": "star"), for: .normal)
+    }
+    
+    func buildCell(_ character: CharacterStorage) {
+        guard let img = character.img else {
+            return
+        }
+        
+        characterId = Int(truncating: character.id as NSNumber)
+        characterName.text = character.name
+        characterUrlImage = character.url
+        characterImage.image = UIImage(data: img)
+        isFavorite = storage.checkFavoriteCharacter(id: characterId)
+        favoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill": "star"), for: .normal)
+    }
+    
     private func setViewStyle() {
         contentView.layer.borderColor = CGColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)
         contentView.layer.borderWidth = 0.7
@@ -89,20 +115,20 @@ class CardCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func favorite() {
-        if !isCharacterFavorite {
+        if !isFavorite {
             guard
                 let name = characterName.text,
                 let image = characterImage.image?.pngData()
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: characterId, image: image)
+            storage.saveCharacter(name: name, id: characterId, image: image, url: characterUrlImage)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            isCharacterFavorite = true
+            isFavorite = true
         } else {
             storage.removeCharacter(id: characterId)
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            isCharacterFavorite = false
+            isFavorite = false
         }
     }
 }

@@ -17,7 +17,7 @@ struct CharactersViewModel {
         self.service = service
     }
     
-    func fetchCharacters(page: Int = 0, callback: @escaping ([[String: Any]]) -> Void){
+    func fetchCharacters(page: Int = 0, callback: @escaping ([MarvelCharacter]) -> Void){
         service.get(page: page) { (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
             switch result {
             case let .failure(error):
@@ -31,20 +31,8 @@ struct CharactersViewModel {
                 case .invalidURL:
                     print("Invalid URL")
                 }
-            case let .success(data):
-                var charactersDictionary: [[String: Any]] = []
-                for character in data.data.results {
-                    let dictionary = [
-                        "id": character.id,
-                        "description": character.description,
-                        "name": character.name,
-                        "url": character.thumbnail.url
-                    ] as [String : Any]
-                    charactersDictionary.append(dictionary)
-                }
-                
-                callback(charactersDictionary)
-                
+            case let .success(response):
+                callback(response.data.results)
             }
         }
     }

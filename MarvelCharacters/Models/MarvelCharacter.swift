@@ -12,4 +12,7 @@ struct MarvelCharacter: Codable {
     let description: String
     let name: String
     let thumbnail: Thumbnail
+    var verifiedDescription: String {
+        return !description.isEmpty ? description : "No description."
+    }
 }

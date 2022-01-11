@@ -9,16 +9,6 @@ import UIKit
 
 class CharacterDetailsCollectionViewCell: UICollectionViewCell {
     
-    private lazy var verticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.alignment = .fill
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -52,10 +42,6 @@ class CharacterDetailsCollectionViewCell: UICollectionViewCell {
     private func addComponents() {
         contentView.addSubview(characterImage)
         contentView.addSubview(characterDescription)
-//        contentView.addSubview(characterDescription)
-//        contentView.addSubview(verticalStackView)
-//        verticalStackView.addArrangedSubview(characterImage)
-//        verticalStackView.addArrangedSubview(characterDescription)
     }
     
     private func addConstraints() {

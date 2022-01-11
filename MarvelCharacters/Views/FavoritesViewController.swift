@@ -11,7 +11,7 @@ import CoreData
 class FavoritesViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let storage = CoreDataStorage.shared
-    private var characters: [NSManagedObject] = []
+    private var characters: [CharacterStorage] = []
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.navigationItem.title = "Favorites"
@@ -24,9 +24,8 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        addComponents()
-        addConstraints()
         
+        addConstraints()
         loadCharacters()
     }
     
@@ -42,15 +41,8 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
         
         let character = characters[indexPath.row]
-        let id = character.value(forKey: "id") as! Int
-        let name = character.value(forKey: "name") as! String
-        let image = character.value(forKey: "img") as! Data
         
-        cell.characterName.text = name
-        cell.characterImage.image = UIImage(data: image)
-        cell.characterId = id
-        cell.isCharacterFavorite = true
-        cell.favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        cell.buildCell(character)
         
         return cell
     }
@@ -65,24 +57,20 @@ class FavoritesViewController: UICollectionViewController, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let yourWidth = (collectionView.bounds.width/2.0) - 5.0
         let yourHeight = yourWidth
-
+        
         return CGSize(width: yourWidth, height: yourHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets.zero
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
-    }
-    
-    private func addComponents() {
-//        self.view.addSubview(collectionView)
     }
     
     private func addConstraints() {

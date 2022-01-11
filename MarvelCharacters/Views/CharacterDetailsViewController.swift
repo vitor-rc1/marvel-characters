@@ -100,7 +100,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
             guard let character = character else {
                 return cell
             }
-
+            
             var description = character["description"] as! String
             if description.isEmpty {
                 description = "Sem descrição."
