@@ -24,7 +24,9 @@ struct CharactersViewModel {
                 switch error {
                 case .network(let error):
                     if let errorMessage = error?.localizedDescription {
-                        onErrorHandling?(errorMessage)
+                        DispatchQueue.main.sync {
+                            onErrorHandling?(errorMessage)
+                        }
                     }
                 case .decodeFail(let error):
                     print(error.localizedDescription)

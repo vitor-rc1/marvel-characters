@@ -15,6 +15,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     var character: MarvelCharacter?
     var characterStorage: CharacterStorage?
     var isFavorite: Bool = false
+    var descriptionCell: CharacterDetailsCollectionViewCell!
     
     lazy var favoriteButton: UIBarButtonItem = {
         let button = UIButton()
@@ -88,6 +89,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
             } else if let characterStorage = characterStorage {
                 descriptionCell.buildCell(characterStorage)
             }
+            self.descriptionCell = descriptionCell
             return descriptionCell
         } else if indexPath.section == 1{
             let comic = comics[indexPath.row]
@@ -162,12 +164,11 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     }
     
     @objc private func favorite() {
-        let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! CharacterDetailsCollectionViewCell
         guard
-            let id = cell.characterId,
-            let name = cell.characterName,
-            let image = cell.characterImage.image?.pngData(),
-            let descriptionText = cell.characterDescription.text
+            let id = descriptionCell.characterId,
+            let name = descriptionCell.characterName,
+            let image = descriptionCell.characterImage.image?.pngData(),
+            let descriptionText = descriptionCell.characterDescription.text
         else {
             return
         }
