@@ -8,7 +8,8 @@
 import UIKit
 
 class CharacterDetailsCollectionViewCell: UICollectionViewCell {
-    
+    var characterId: Int!
+    var characterName: String!
     lazy var characterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -40,6 +41,8 @@ class CharacterDetailsCollectionViewCell: UICollectionViewCell {
     }
     
     func buildCell(_ character: MarvelCharacter) {
+        characterId = character.id
+        characterName = character.name
         characterDescription.text = character.verifiedDescription
         let thumbUrl = URL(string: character.thumbnail.url)
         characterImage.sd_setImage(with: thumbUrl, completed: nil)
@@ -49,7 +52,8 @@ class CharacterDetailsCollectionViewCell: UICollectionViewCell {
         guard let img = character.img else {
             return
         }
-        
+        characterId =  Int(truncating: character.id as NSNumber)
+        characterName = character.name
         characterDescription.text = character.charDescription
         characterImage.image = UIImage(data: img)
     }

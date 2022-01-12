@@ -8,12 +8,29 @@
 import UIKit
 
 class CharacterDetailsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
+    private let storage = CoreDataStorage.shared
     private var viewModel: CharactersDetailsViewModel!
     private var comics: [MarvelCharacterMidia] = []
     private var series: [MarvelCharacterMidia] = []
     var character: MarvelCharacter?
     var characterStorage: CharacterStorage?
+    var isFavorite: Bool = false
+    
+    lazy var favoriteButton: UIBarButtonItem = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.imageView?.tintColor = .systemYellow
+        button.addTarget(self, action: #selector(favorite), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
+    
+    lazy var favoritedButton: UIBarButtonItem = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        button.imageView?.tintColor = .systemYellow
+        button.addTarget(self, action: #selector(favorite), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +41,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(CharacterDetailsCollectionViewCell.self, forCellWithReuseIdentifier: "descriptionCell")
-        collectionView.register(SectionCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "sectionHeader")
+        collectionView.register(SectionHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "sectionHeader")
         
         
         addConstraints()
@@ -53,7 +70,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionView.elementKindSectionHeader) {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionCollectionReusableView
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionHeaderCollectionReusableView
             headerView.sectionHeader.text = indexPath.section == 1 ? "Comics" : "Series"
             
             return headerView
@@ -62,29 +79,23 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
+        
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "descriptionCell", for: indexPath) as! CharacterDetailsCollectionViewCell
+            let descriptionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "descriptionCell", for: indexPath) as! CharacterDetailsCollectionViewCell
             if let character = character  {
-                cell.buildCell(character)
+                descriptionCell.buildCell(character)
             } else if let characterStorage = characterStorage {
-                cell.buildCell(characterStorage)
+                descriptionCell.buildCell(characterStorage)
             }
-            return cell
+            return descriptionCell
         } else if indexPath.section == 1{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-            
             let comic = comics[indexPath.row]
             cell.buildCell(comic)
-            return cell
         } else if indexPath.section == 2{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-            
             let serie = series[indexPath.row]
             cell.buildCell(serie)
-            return cell
         }
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
         return cell
     }
     
@@ -92,10 +103,10 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
         if indexPath.section == 0 {
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
         }
-        let yourWidth = (collectionView.bounds.width/2.0) - 5.0
-        let yourHeight = yourWidth
+        let widhtCell = (collectionView.bounds.width/2.0) - 5.0
+        let heightCell = widhtCell
         
-        return CGSize(width: yourWidth, height: yourHeight)
+        return CGSize(width: widhtCell, height: heightCell)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -115,12 +126,17 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
         
         if let character = character {
             characterId = character.id
+            self.title = character.name
         } else if let characterStorage = characterStorage {
             characterId = Int(truncating: characterStorage.id as NSNumber)
+            self.title = characterStorage.name
         } else {
             return
         }
-
+        
+        isFavorite = storage.checkFavoriteCharacter(id: characterId)
+        self.navigationItem.rightBarButtonItem = isFavorite ? favoritedButton : favoriteButton
+        
         viewModel.fetchCharacterMidias(id: characterId, specification: "comics") { comics in
             self.comics = comics
             DispatchQueue.main.sync {
@@ -143,6 +159,28 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
             collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             self.view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 20),
         ])
+    }
+    
+    @objc private func favorite() {
+        let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! CharacterDetailsCollectionViewCell
+        guard
+            let id = cell.characterId,
+            let name = cell.characterName,
+            let image = cell.characterImage.image?.pngData(),
+            let descriptionText = cell.characterDescription.text
+        else {
+            return
+        }
+        
+        if !isFavorite {
+            storage.saveCharacter(name: name, id: id, image: image, descriptionText: descriptionText)
+            self.navigationItem.rightBarButtonItem = favoritedButton
+            isFavorite = true
+        } else {
+            storage.removeCharacter(id: id)
+            self.navigationItem.rightBarButtonItem = favoriteButton
+            isFavorite = false
+        }
     }
     
 }

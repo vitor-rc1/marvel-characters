@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SectionCollectionReusableView: UICollectionReusableView {
+class SectionHeaderCollectionReusableView: UICollectionReusableView {
     lazy var sectionHeader: UILabel = {
         let label = UILabel()
         label.tintColor = .black

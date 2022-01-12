@@ -11,7 +11,6 @@ import CoreData
 class CardCollectionViewCell: UICollectionViewCell {
     private let storage = CoreDataStorage.shared
     var id: Int!
-    var urlImage: String!
     var descriptionText: String!
     var isFavorite: Bool = false
     
@@ -65,7 +64,6 @@ class CardCollectionViewCell: UICollectionViewCell {
     func buildCell(_ character: MarvelCharacter) {
         id = character.id
         nameLabel.text = character.name
-        urlImage = character.thumbnail.url
         descriptionText = character.verifiedDescription
         let thumbUrl = URL(string: character.thumbnail.url)
         imageView.sd_setImage(with: thumbUrl, completed: nil)
@@ -80,7 +78,6 @@ class CardCollectionViewCell: UICollectionViewCell {
         
         id = Int(truncating: character.id as NSNumber)
         nameLabel.text = character.name
-        urlImage = character.url
         descriptionText = character.charDescription
         imageView.image = UIImage(data: img)
         isFavorite = storage.checkFavoriteCharacter(id: id)
@@ -90,7 +87,6 @@ class CardCollectionViewCell: UICollectionViewCell {
     func buildCell(_ midia: MarvelCharacterMidia) {
         id = midia.id
         nameLabel.text = midia.title
-        urlImage = midia.thumbnail.url
         let thumbUrl = URL(string: midia.thumbnail.url)
         imageView.sd_setImage(with: thumbUrl, completed: nil)
        
@@ -135,7 +131,7 @@ class CardCollectionViewCell: UICollectionViewCell {
             else {
                 return
             }
-            storage.saveCharacter(name: name, id: id, image: image, url: urlImage, descriptionText: descriptionText)
+            storage.saveCharacter(name: name, id: id, image: image, descriptionText: descriptionText)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             isFavorite = true
         } else {

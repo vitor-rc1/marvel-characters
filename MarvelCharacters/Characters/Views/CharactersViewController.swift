@@ -68,10 +68,10 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let yourWidth = (collectionView.bounds.width/2.0) - 5.0
-        let yourHeight = yourWidth
+        let widhtCell = (collectionView.bounds.width/2.0) - 5.0
+        let heightCell = widhtCell
         
-        return CGSize(width: yourWidth, height: yourHeight)
+        return CGSize(width: widhtCell, height: heightCell)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

@@ -19,12 +19,11 @@ public class CoreDataStorage {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func saveCharacter(name: String, id: Int, image: Data, url: String, descriptionText: String) {
+    func saveCharacter(name: String, id: Int, image: Data, descriptionText: String) {
         let character = CharacterStorage(context: context)
         character.name = name
         character.id = Int32(id)
         character.img = image
-        character.url = url
         character.charDescription = descriptionText
         do {
             try context.save()

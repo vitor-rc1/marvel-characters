@@ -5,9 +5,8 @@
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="img" attributeType="Binary"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="url" attributeType="String"/>
     </entity>
     <elements>
-        <element name="CharacterStorage" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="CharacterStorage" positionX="-63" positionY="-18" width="128" height="89"/>
     </elements>
 </model>
