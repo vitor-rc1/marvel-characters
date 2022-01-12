@@ -8,7 +8,7 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,5 +27,5 @@ class TabBarController: UITabBarController {
         
         self.setViewControllers([characterVC, favoritesVC], animated: false)
     }
-
+    
 }

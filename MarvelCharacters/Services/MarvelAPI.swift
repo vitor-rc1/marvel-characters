@@ -65,14 +65,14 @@ public class MarvelAPI {
                 callback(.failure(.network(error)))
                 return
             }
-
+            
             do {
                 let marvelResponse = try decode.decode(T.self, from: data)
                 callback(.success(marvelResponse))
             } catch  {
                 callback(.failure(.decodeFail(error)))
             }
-
+            
         }
         task.resume()
     }
