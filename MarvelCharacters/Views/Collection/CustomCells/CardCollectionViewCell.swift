@@ -91,7 +91,6 @@ class CardCollectionViewCell: UICollectionViewCell {
         id = midia.id
         nameLabel.text = midia.title
         urlImage = midia.thumbnail.url
-        descriptionText = midia.description
         let thumbUrl = URL(string: midia.thumbnail.url)
         imageView.sd_setImage(with: thumbUrl, completed: nil)
        

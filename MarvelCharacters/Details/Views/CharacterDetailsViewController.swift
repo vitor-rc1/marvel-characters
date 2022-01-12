@@ -54,11 +54,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionView.elementKindSectionHeader) {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionCollectionReusableView
-            if indexPath.section == 1 {
-                headerView.sectionHeader.text = "Comics"
-            } else if indexPath.section == 2 {
-                headerView.sectionHeader.text = "Series"
-            }
+            headerView.sectionHeader.text = indexPath.section == 1 ? "Comics" : "Series"
             
             return headerView
         }
@@ -116,6 +112,7 @@ class CharacterDetailsViewController: UICollectionViewController, UICollectionVi
     
     private func loadCharacterDetails() {
         var characterId: Int
+        
         if let character = character {
             characterId = character.id
         } else if let characterStorage = characterStorage {

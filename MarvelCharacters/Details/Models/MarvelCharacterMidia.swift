@@ -9,7 +9,6 @@ import Foundation
 
 struct MarvelCharacterMidia: Codable {
     let id: Int
-    let description: String
     let title: String
     let thumbnail: Thumbnail
 }

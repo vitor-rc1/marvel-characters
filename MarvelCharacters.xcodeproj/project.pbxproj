@@ -124,6 +124,75 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B07E150278EFC8300C9DAF2 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				3B07E155278EFD1300C9DAF2 /* ViewModels */,
+				3B07E154278EFD0C00C9DAF2 /* Models */,
+				3B07E153278EFD0500C9DAF2 /* Views */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		3B07E151278EFC8D00C9DAF2 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				3B07E156278EFD6400C9DAF2 /* Views */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		3B07E152278EFC9500C9DAF2 /* Characters */ = {
+			isa = PBXGroup;
+			children = (
+				3BBBC3D72783671C006E5E31 /* ViewModel */,
+				3B07E157278EFD6A00C9DAF2 /* Views */,
+			);
+			path = Characters;
+			sourceTree = "<group>";
+		};
+		3B07E153278EFD0500C9DAF2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3B4AC725278B7721004C75EA /* CharacterDetailsCollectionViewCell.swift */,
+				3BCC6A03278A3BF700700019 /* CharacterDetailsViewController.swift */,
+				3B4AC723278B6641004C75EA /* SectionCollectionReusableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3B07E154278EFD0C00C9DAF2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3B4AC71D278B20D1004C75EA /* MarvelCharacterMidia.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3B07E155278EFD1300C9DAF2 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3B4AC71F278B275F004C75EA /* CharacterDetailsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		3B07E156278EFD6400C9DAF2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3BEC81892784D9F10080612D /* FavoritesViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3B07E157278EFD6A00C9DAF2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		3B160D7E2783635300B7DD64 = {
 			isa = PBXGroup;
 			children = (
@@ -149,15 +218,17 @@
 		3B160D892783635300B7DD64 /* MarvelCharacters */ = {
 			isa = PBXGroup;
 			children = (
+				3B160D9B2783635400B7DD64 /* Info.plist */,
+				3B160D962783635400B7DD64 /* Assets.xcassets */,
+				3B138B212788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld */,
 				3BBBC3D92783677C006E5E31 /* Application */,
-				3BBBC3E127839904006E5E31 /* Utility */,
+				3B07E152278EFC9500C9DAF2 /* Characters */,
+				3B07E150278EFC8300C9DAF2 /* Details */,
+				3B07E151278EFC8D00C9DAF2 /* Favorites */,
 				3BBBC3D82783672C006E5E31 /* Models */,
 				3BBBC3D52783670E006E5E31 /* Services */,
-				3BBBC3D72783671C006E5E31 /* ViewModel */,
+				3BBBC3E127839904006E5E31 /* Utility */,
 				3BBBC3D627836715006E5E31 /* Views */,
-				3B160D962783635400B7DD64 /* Assets.xcassets */,
-				3B160D9B2783635400B7DD64 /* Info.plist */,
-				3B138B212788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld */,
 			);
 			path = MarvelCharacters;
 			sourceTree = "<group>";
@@ -183,7 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				3B38947727860953003762D9 /* CardCollectionViewCell.swift */,
-				3B4AC725278B7721004C75EA /* CharacterDetailsCollectionViewCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -192,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				3B4AC721278B575B004C75EA /* CustomCells */,
-				3B4AC723278B6641004C75EA /* SectionCollectionReusableView.swift */,
 			);
 			path = Collection;
 			sourceTree = "<group>";
@@ -218,11 +287,8 @@
 			isa = PBXGroup;
 			children = (
 				3B4AC722278B6609004C75EA /* Collection */,
-				3BCC6A03278A3BF700700019 /* CharacterDetailsViewController.swift */,
-				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
-				3BEC81892784D9F10080612D /* FavoritesViewController.swift */,
-				3BEC81872784C25B0080612D /* TabBarController.swift */,
 				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
+				3BEC81872784C25B0080612D /* TabBarController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -231,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				3BEC817E2784B8050080612D /* CharactersViewModel.swift */,
-				3B4AC71F278B275F004C75EA /* CharacterDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -241,7 +306,6 @@
 			children = (
 				3BEC81792784885F0080612D /* MarvelCharacter.swift */,
 				3B4AC71B278B1BED004C75EA /* Thumbnail.swift */,
-				3B4AC71D278B20D1004C75EA /* MarvelCharacterMidia.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
