@@ -100,6 +100,7 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     private func loadCharacters(page: Int) {
+        
         viewModel.fetchCharacters(page: page) { characters in
             self.characters.append(contentsOf: characters)
             DispatchQueue.main.sync {

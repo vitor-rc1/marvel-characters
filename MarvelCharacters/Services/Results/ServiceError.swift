@@ -7,7 +7,18 @@
 
 import Foundation
 
-public enum ServiceError: Error {
+public enum ServiceError: Error, Equatable {
+    public static func == (lhs: ServiceError, rhs: ServiceError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL, .invalidURL),
+            (.decodeFail, .decodeFail),
+            (.network, .network):
+            return true
+        default:
+            return false
+        }
+    }
+    
     case invalidURL
     case decodeFail(Error)
     case network(Error?)
