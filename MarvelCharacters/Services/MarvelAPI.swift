@@ -9,13 +9,14 @@ import Foundation
 import SwiftHash
 
 public class MarvelAPI {
-    private let baseURL = "https://gateway.marvel.com/v1/public/characters"
-    private var publicKey: String = ""
-    private var privateKey: String = ""
-    
+    let baseURL = "https://gateway.marvel.com/v1/public/characters"
     private let limit = 20
     
-    init(){
+    private var publicKey: String = ""
+    private var privateKey: String = ""
+    private var urlSession: URLSession!
+    
+    init(urlSession: URLSession = .shared){
         if
             let publicKey = ProcessInfo.processInfo.environment["publicKey"],
             let privateKey = ProcessInfo.processInfo.environment["privateKey"]
@@ -23,6 +24,8 @@ public class MarvelAPI {
             self.publicKey = publicKey
             self.privateKey = privateKey
         }
+        
+        self.urlSession = urlSession
     }
     
     func get<T: Codable>(
@@ -53,18 +56,23 @@ public class MarvelAPI {
         network(path: path, callback: callback)
     }
     
-    private func network<T: Codable>(path: String, callback: @escaping (Result<T, ServiceError>
+    func network<T: Codable>(path: String, callback: @escaping (Result<T, ServiceError>
     ) -> Void) {
         guard let url = URL(string: path) else {
             callback(.failure(.invalidURL))
             return
         }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            let decode = JSONDecoder()
-            guard let data = data else {
+        let task = urlSession.dataTask(with: url) { data, response, error in
+            guard
+                let httpResponse = response as? HTTPURLResponse,
+                let data = data,
+                httpResponse.statusCode == 200
+            else {
                 callback(.failure(.network(error)))
                 return
             }
+            
+            let decode = JSONDecoder()
             
             do {
                 let marvelResponse = try decode.decode(T.self, from: data)

@@ -1,15 +1,18 @@
 PODS:
+  - Mocker (2.5.5)
   - SDWebImage/Core (5.12.2)
   - SDWebImage/MapKit (5.12.2):
     - SDWebImage/Core
   - SwiftHash (2.0.2)
 
 DEPENDENCIES:
+  - Mocker
   - SDWebImage/MapKit
   - SwiftHash (from `https://github.com/onmyway133/SwiftHash`)
 
 SPEC REPOS:
   trunk:
+    - Mocker
     - SDWebImage
 
 EXTERNAL SOURCES:
@@ -22,9 +25,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/onmyway133/SwiftHash
 
 SPEC CHECKSUMS:
+  Mocker: 8c731a8104962f246cadf2b02556218e9edc1390
   SDWebImage: 240e5c12b592fb1268c1d03b8c90d90e8c2ffe82
   SwiftHash: 6d312abe61c8359bdef8d0093642f3a70b1c17ba
 
-PODFILE CHECKSUM: 5a92b45e3253c3624b2d6c24e39ee61862f70b71
+PODFILE CHECKSUM: 6c10bb103651d4eeadd73b2e73fc1696266b5bdb
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.10.2
