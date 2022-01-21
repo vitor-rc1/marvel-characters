@@ -8,14 +8,15 @@
 import Foundation
 import SwiftHash
 
-public class MarvelAPI {
-    private let baseURL = "https://gateway.marvel.com/v1/public/characters"
-    private var publicKey: String = ""
-    private var privateKey: String = ""
-    
+public class MarvelAPI: MarvelAPIProtocol {
+    let baseURL = "https://gateway.marvel.com/v1/public/characters"
     private let limit = 20
     
-    init(){
+    private var publicKey: String = ""
+    private var privateKey: String = ""
+    private var urlSession: URLSession!
+    
+    init(urlSession: URLSession = .shared){
         if
             let publicKey = ProcessInfo.processInfo.environment["publicKey"],
             let privateKey = ProcessInfo.processInfo.environment["privateKey"]
@@ -23,6 +24,8 @@ public class MarvelAPI {
             self.publicKey = publicKey
             self.privateKey = privateKey
         }
+        
+        self.urlSession = urlSession
     }
     
     func get<T: Codable>(
@@ -53,24 +56,32 @@ public class MarvelAPI {
         network(path: path, callback: callback)
     }
     
-    private func network<T: Codable>(path: String, callback: @escaping (Result<T, ServiceError>
+    func network<T: Codable>(path: String, callback: @escaping (Result<T, ServiceError>
     ) -> Void) {
         guard let url = URL(string: path) else {
-            callback(.failure(.invalidURL))
+            callback(.failure(.invalidURL("Invalid URL \(path)")))
             return
         }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = urlSession.dataTask(with: url) { data, response, error in
             let decode = JSONDecoder()
-            guard let data = data else {
-                callback(.failure(.network(error)))
-                return
-            }
-            
             do {
+                guard
+                    let httpResponse = response as? HTTPURLResponse,
+                    let data = data,
+                    httpResponse.statusCode == 200
+                else {
+                    let errorResponse = try decode.decode(MarvelResponseError.self, from: data!)
+                    callback(.failure(.network(errorResponse.message)))
+                    return
+                }
+                
+                
+                
+                
                 let marvelResponse = try decode.decode(T.self, from: data)
                 callback(.success(marvelResponse))
             } catch  {
-                callback(.failure(.decodeFail(error)))
+                callback(.failure(.decodeFail(error.localizedDescription)))
             }
             
         }

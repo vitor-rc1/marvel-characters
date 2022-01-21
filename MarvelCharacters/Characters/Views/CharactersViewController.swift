@@ -32,10 +32,12 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
         collectionView.reloadData()
     }
     
-    func errorHandling(message: String) {
+    func errorHandling(message: String?) {
         let controller = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        self.present(controller, animated: true, completion: nil)
+        DispatchQueue.main.sync {
+            self.present(controller, animated: true, completion: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +102,7 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     }
     
     private func loadCharacters(page: Int) {
+        
         viewModel.fetchCharacters(page: page) { characters in
             self.characters.append(contentsOf: characters)
             DispatchQueue.main.sync {

@@ -11,6 +11,7 @@ target 'MarvelCharacters' do
   target 'MarvelCharactersTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Mocker'
   end
 
   target 'MarvelCharactersUITests' do
