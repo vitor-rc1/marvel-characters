@@ -30,9 +30,11 @@
 ## Utilizado
 
 - Swift 5.
+- XCTest
 - Pods
   - SwiftHash
   - SDWebImage
+  - Mocker
 
 ### Resultado
 
