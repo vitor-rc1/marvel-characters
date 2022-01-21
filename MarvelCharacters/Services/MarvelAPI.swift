@@ -8,7 +8,7 @@
 import Foundation
 import SwiftHash
 
-public class MarvelAPI {
+public class MarvelAPI: MarvelAPIProtocol {
     let baseURL = "https://gateway.marvel.com/v1/public/characters"
     private let limit = 20
     
@@ -59,26 +59,29 @@ public class MarvelAPI {
     func network<T: Codable>(path: String, callback: @escaping (Result<T, ServiceError>
     ) -> Void) {
         guard let url = URL(string: path) else {
-            callback(.failure(.invalidURL))
+            callback(.failure(.invalidURL("Invalid URL \(path)")))
             return
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
-            guard
-                let httpResponse = response as? HTTPURLResponse,
-                let data = data,
-                httpResponse.statusCode == 200
-            else {
-                callback(.failure(.network(error)))
-                return
-            }
-            
             let decode = JSONDecoder()
-            
             do {
+                guard
+                    let httpResponse = response as? HTTPURLResponse,
+                    let data = data,
+                    httpResponse.statusCode == 200
+                else {
+                    let errorResponse = try decode.decode(MarvelResponseError.self, from: data!)
+                    callback(.failure(.network(errorResponse.message)))
+                    return
+                }
+                
+                
+                
+                
                 let marvelResponse = try decode.decode(T.self, from: data)
                 callback(.success(marvelResponse))
             } catch  {
-                callback(.failure(.decodeFail(error)))
+                callback(.failure(.decodeFail(error.localizedDescription)))
             }
             
         }

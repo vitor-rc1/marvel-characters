@@ -9,27 +9,23 @@ import Foundation
 
 struct CharactersDetailsViewModel {
     
-    private let service: MarvelAPI!
+    private let service: MarvelAPIProtocol!
     
-    var onErrorHandling: ((String) -> Void)?
+    var onErrorHandling: ((String?) -> Void)?
     
-    init(service: MarvelAPI = MarvelAPI()) {
+    init(service: MarvelAPIProtocol = MarvelAPI()) {
         self.service = service
     }
     
     func fetchCharacter(id: Int, callback: @escaping (MarvelCharacter) -> Void){
-        service.getById(id: id) { (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
+        service.getById(id: id, specification: "") { (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
             switch result {
             case let .failure(error):
                 switch error {
-                case .network(let error):
-                    if let errorMessage = error?.localizedDescription {
-                        onErrorHandling?(errorMessage)
-                    }
-                case .decodeFail(let error):
-                    print(error.localizedDescription)
-                case .invalidURL:
-                    print("Invalid URL")
+                case .network(let errorMessage),
+                        .decodeFail(let errorMessage),
+                        .invalidURL(let errorMessage):
+                    onErrorHandling?(errorMessage)
                 }
             case let .success(data):
                 if let character = data.data.results.first {
@@ -44,14 +40,10 @@ struct CharactersDetailsViewModel {
             switch result {
             case let .failure(error):
                 switch error {
-                case .network(let error):
-                    if let errorMessage = error?.localizedDescription {
-                        onErrorHandling?(errorMessage)
-                    }
-                case .decodeFail(let error):
-                    print(error.localizedDescription)
-                case .invalidURL:
-                    print("Invalid URL")
+                case .network(let errorMessage),
+                        .decodeFail(let errorMessage),
+                        .invalidURL(let errorMessage):
+                    onErrorHandling?(errorMessage)
                 }
             case let .success(data):
                 callback(data.data.results)

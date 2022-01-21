@@ -19,7 +19,7 @@ public enum ServiceError: Error, Equatable {
         }
     }
     
-    case invalidURL
-    case decodeFail(Error)
-    case network(Error?)
+    case invalidURL(String?)
+    case decodeFail(String?)
+    case network(String?)
 }
