@@ -17,3 +17,8 @@ struct MarvelData<T: Codable>: Codable {
     let results: [T]
     let total: Int
 }
+
+struct MarvelResponseError: Codable {
+    let code: String
+    let message: String
+}

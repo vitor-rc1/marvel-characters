@@ -13,6 +13,7 @@ class MarvelAPITest: XCTestCase {
     
     var serviceAPI: MarvelAPI!
     var baseURL: String!
+    let fileManipulation = FilesManipulation.shared
     
     override func setUp() {
         serviceAPI = MarvelAPI()
@@ -119,7 +120,7 @@ class MarvelAPITest: XCTestCase {
             case .success(let result):
                 XCTFail("Network should not return success when URL is invalid. \(result)")
             case .failure(let error):
-                XCTAssertEqual(error, ServiceError.invalidURL)
+                XCTAssertEqual(error, .invalidURL("Invalid URL"))
             }
             expectation.fulfill()
         }
@@ -137,7 +138,7 @@ class MarvelAPITest: XCTestCase {
             case .success(let result):
                 XCTFail("Network should not return success when code isn`t 200. \(result)")
             case .failure(let error):
-                XCTAssertEqual(error, ServiceError.network(error))
+                XCTAssertEqual(error, .network("Network error"))
             }
             expectation.fulfill()
         }
@@ -147,7 +148,7 @@ class MarvelAPITest: XCTestCase {
     
     private func registerMock(urlString: String, mockFileName: String, statusCode: Int) {
         if let url = URL(string: urlString) {
-            let mockResponse = loadJsonFile(name: mockFileName)
+            let mockResponse = fileManipulation.loadJsonFile(name: mockFileName)
             let mockService = Mock(url: url, ignoreQuery: true, dataType: .json, statusCode: statusCode,
                                    data: [Mock.HTTPMethod.get : mockResponse])
             mockService.register()
@@ -156,20 +157,5 @@ class MarvelAPITest: XCTestCase {
         }
     }
     
-    private func loadJsonFile(name: String) -> Data {
-        guard let dataURL = Bundle(for: type(of: self)).path(forResource: name, ofType: "json") else {
-            fatalError("Could not find \(name).json")
-        }
-        
-        guard let jsonString = try? String(contentsOfFile: dataURL, encoding: .utf8) else {
-            fatalError("Unable to convert \(name).json to String")
-        }
-        
-        guard let jsonData = jsonString.data(using: .utf8) else {
-            fatalError("Unable to convert string json to Data")
-        }
-        
-        return jsonData
-    }
     
 }
