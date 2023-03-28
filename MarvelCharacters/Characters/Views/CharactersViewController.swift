@@ -23,7 +23,6 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        addComponents()
         addConstraints()
         loadCharacters(page: page)
     }
@@ -86,10 +85,6 @@ class CharactersViewController: UICollectionViewController, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
-    }
-    
-    private func addComponents() {
-        //        self.view.addSubview(collectionView)
     }
     
     private func addConstraints() {
