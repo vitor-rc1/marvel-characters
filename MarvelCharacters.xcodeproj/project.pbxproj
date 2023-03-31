@@ -149,13 +149,29 @@
 		1EBC734129D661650088BE37 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				3BBBC3D627836715006E5E31 /* Views */,
-				3B07E150278EFC8300C9DAF2 /* Details */,
-				3BBBC3D82783672C006E5E31 /* Models */,
-				3B07E151278EFC8D00C9DAF2 /* Favorites */,
 				3B07E152278EFC9500C9DAF2 /* Characters */,
+				1EBC734229D661C40088BE37 /* Commons */,
+				3B07E150278EFC8300C9DAF2 /* Details */,
+				3B07E151278EFC8D00C9DAF2 /* Favorites */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		1EBC734229D661C40088BE37 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				3BBBC3D82783672C006E5E31 /* Models */,
+				1EBC734329D662000088BE37 /* Protocols */,
+				3BBBC3D627836715006E5E31 /* Views */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		1EBC734329D662000088BE37 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		3B07E150278EFC8300C9DAF2 /* Details */ = {
@@ -255,6 +271,7 @@
 				3B160D9B2783635400B7DD64 /* Info.plist */,
 				3B160D962783635400B7DD64 /* Assets.xcassets */,
 				3B138B212788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld */,
+				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
 				3BBBC3D92783677C006E5E31 /* Application */,
 				1EBC734129D661650088BE37 /* Scenes */,
 				3BBBC3D52783670E006E5E31 /* Services */,
@@ -344,7 +361,6 @@
 			isa = PBXGroup;
 			children = (
 				3B4AC722278B6609004C75EA /* Collection */,
-				3B160D982783635400B7DD64 /* LaunchScreen.storyboard */,
 				3BEC81872784C25B0080612D /* TabBarController.swift */,
 			);
 			path = Views;
