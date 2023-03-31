@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EBC734729D663D60088BE37 /* CharactersConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBC734629D663D60088BE37 /* CharactersConfigurator.swift */; };
 		3B138B202788A27800DE47C4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B138B1F2788A27800DE47C4 /* CoreData.framework */; };
 		3B138B232788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B138B212788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld */; };
 		3B160D8B2783635300B7DD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B160D8A2783635300B7DD64 /* AppDelegate.swift */; };
@@ -70,6 +71,7 @@
 		14ACC2D4C316BAC11E4F0A19 /* Pods-MarvelCharacters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelCharacters.release.xcconfig"; path = "Target Support Files/Pods-MarvelCharacters/Pods-MarvelCharacters.release.xcconfig"; sourceTree = "<group>"; };
 		1C538C96F6BFF29A2A230F1B /* Pods_MarvelCharacters.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarvelCharacters.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFA1902A86DD5F4825088A7 /* Pods-MarvelCharactersTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelCharactersTests.debug.xcconfig"; path = "Target Support Files/Pods-MarvelCharactersTests/Pods-MarvelCharactersTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1EBC734629D663D60088BE37 /* CharactersConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersConfigurator.swift; sourceTree = "<group>"; };
 		298F6D429B136A75D73D5C88 /* Pods_MarvelCharactersTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarvelCharactersTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3437AD372865F15301FCA151 /* Pods_MarvelCharacters_MarvelCharactersUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarvelCharacters_MarvelCharactersUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B138B1F2788A27800DE47C4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -195,8 +197,9 @@
 		3B07E152278EFC9500C9DAF2 /* Characters */ = {
 			isa = PBXGroup;
 			children = (
-				3BBBC3D72783671C006E5E31 /* ViewModels */,
-				3B07E157278EFD6A00C9DAF2 /* Views */,
+				3BEC817E2784B8050080612D /* CharactersViewModel.swift */,
+				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
+				1EBC734629D663D60088BE37 /* CharactersConfigurator.swift */,
 			);
 			path = Characters;
 			sourceTree = "<group>";
@@ -231,14 +234,6 @@
 			isa = PBXGroup;
 			children = (
 				3BEC81892784D9F10080612D /* FavoritesViewController.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		3B07E157278EFD6A00C9DAF2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				3BBBC3DF278371B5006E5E31 /* CharactersViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,14 +359,6 @@
 				3BEC81872784C25B0080612D /* TabBarController.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		3BBBC3D72783671C006E5E31 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				3BEC817E2784B8050080612D /* CharactersViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		3BBBC3D82783672C006E5E31 /* Models */ = {
@@ -748,6 +735,7 @@
 				3B4AC720278B275F004C75EA /* CharacterDetailsViewModel.swift in Sources */,
 				3B138B232788A2AC00DE47C4 /* MarvelCharacters.xcdatamodeld in Sources */,
 				3B9E79DC27879BD3003828E6 /* CoreDataStorage.swift in Sources */,
+				1EBC734729D663D60088BE37 /* CharactersConfigurator.swift in Sources */,
 				3BEC81882784C25B0080612D /* TabBarController.swift in Sources */,
 				3B38947827860953003762D9 /* CardCollectionViewCell.swift in Sources */,
 				3BEC817C278488790080612D /* MarvelAPIResponse.swift in Sources */,
