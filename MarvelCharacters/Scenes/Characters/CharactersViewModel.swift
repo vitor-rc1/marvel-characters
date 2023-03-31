@@ -9,11 +9,11 @@ import Foundation
 
 public struct CharactersViewModel {
     
-    private let service: MarvelAPIProtocol!
+    private let service: MarvelAPIProtocol
     
     var onErrorHandling: ((String?) -> Void)?
     
-    init(service: MarvelAPIProtocol = MarvelAPI()) {
+    init(service: MarvelAPIProtocol) {
         self.service = service
     }
     

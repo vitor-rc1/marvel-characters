@@ -16,7 +16,7 @@ class TabBarController: UITabBarController {
     }
     
     private func controllersTabBar() {
-        let characterVC = CharactersViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let characterVC = CharactersConfigurator().configure()
         let favoritesVC = FavoritesViewController(collectionViewLayout: UICollectionViewFlowLayout())
         
         characterVC.title = "Characters"
