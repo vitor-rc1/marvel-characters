@@ -13,3 +13,11 @@ protocol ViewCode {
     func setupAdditionalConfiguration()
     func setupView()
 }
+
+extension ViewCode {
+    func setupView() {
+        buildViewHierarchy()
+        setupConstraints()
+        setupAdditionalConfiguration()
+    }
+}
