@@ -12,6 +12,9 @@ final class CharactersConfigurator {
         let service = MarvelAPI()
         let viewModel = CharactersViewModel(service: service)
         let viewController = CharactersViewController(viewModel: viewModel)
+
+        viewModel.delegate = viewController
+
         return viewController
     }
 }

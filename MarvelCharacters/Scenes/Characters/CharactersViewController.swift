@@ -27,6 +27,7 @@ class CharactersViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
 
@@ -49,10 +50,6 @@ class CharactersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.onErrorHandling = errorHandling
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         setupView()
         loadCharacters(page: page)
     }
@@ -61,20 +58,11 @@ class CharactersViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    func errorHandling(message: String?) {
-        let controller = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        DispatchQueue.main.sync {
-            present(controller, animated: true, completion: nil)
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationItem.title = "Characters"
     }
     
     private func loadCharacters(page: Int) {
-        
         viewModel.fetchCharacters(page: page) { characters in
             self.characters.append(contentsOf: characters)
             DispatchQueue.main.sync { [weak self] in
@@ -129,5 +117,19 @@ extension CharactersViewController: ViewCode {
 
     func setupAdditionalConfiguration() {
         view.backgroundColor = .white
+    }
+}
+
+extension CharactersViewController: CharactersViewModelDelegate {
+    func didLoadCharacters() {
+        collectionView.reloadData()
+    }
+
+    func showError(message: String) {
+        let controller = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        DispatchQueue.main.async { [weak self] in
+            self?.present(controller, animated: true, completion: nil)
+        }
     }
 }
