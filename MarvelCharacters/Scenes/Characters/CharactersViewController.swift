@@ -32,8 +32,6 @@ class CharactersViewController: UIViewController {
     }()
 
     private var viewModel: CharactersViewModel
-    private var characters: [MarvelCharacter] = []
-    private var page = 0
 
     // MARK: - Inits
 
@@ -51,41 +49,27 @@ class CharactersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        loadCharacters(page: page)
+        viewModel.getCharacters()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         collectionView.reloadData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationItem.title = "Characters"
-    }
-    
-    private func loadCharacters(page: Int) {
-        viewModel.fetchCharacters(page: page) { characters in
-            self.characters.append(contentsOf: characters)
-            DispatchQueue.main.sync { [weak self] in
-                self?.collectionView.reloadData()
-            }
-        }
-    }
 }
 
 extension CharactersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        characters.count
+        viewModel.getCharactersCount()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
 
-        if (indexPath.row == characters.count - 1 ) {
-            page += 1
-            loadCharacters(page: page)
+        if (indexPath.row == viewModel.getCharactersCount() - 1 ) {
+            viewModel.getNextCharactersPage()
         }
 
-        let character = characters[indexPath.row]
+        let character = viewModel.getCharacter(index: indexPath.row)
         cell.buildCell(character)
 
         return cell
@@ -94,7 +78,7 @@ extension CharactersViewController: UICollectionViewDataSource {
 
 extension CharactersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let character = characters[indexPath.row]
+        let character = viewModel.getCharacter(index: indexPath.row)
         let characterDetailsVC = CharacterDetailsViewController(collectionViewLayout: UICollectionViewFlowLayout())
         characterDetailsVC.character = character
         navigationController?.pushViewController(characterDetailsVC, animated: true)
@@ -117,6 +101,7 @@ extension CharactersViewController: ViewCode {
 
     func setupAdditionalConfiguration() {
         view.backgroundColor = .white
+        tabBarController?.navigationItem.title = "Characters"
     }
 }
 
@@ -128,8 +113,6 @@ extension CharactersViewController: CharactersViewModelDelegate {
     func showError(message: String) {
         let controller = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-        DispatchQueue.main.async { [weak self] in
-            self?.present(controller, animated: true, completion: nil)
-        }
+        present(controller, animated: true, completion: nil)
     }
 }

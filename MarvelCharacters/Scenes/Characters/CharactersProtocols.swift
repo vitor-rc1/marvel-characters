@@ -1,5 +1,8 @@
 protocol CharactersViewModelProtocol {
-    func fetchCharacters(page: Int, callback: @escaping ([MarvelCharacter]) -> Void)
+    func getCharacter(index: Int) -> MarvelCharacter
+    func getCharacters()
+    func getCharactersCount() -> Int
+    func getNextCharactersPage()
 }
 
 protocol CharactersViewModelDelegate: AnyObject {

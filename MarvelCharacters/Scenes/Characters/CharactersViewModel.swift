@@ -11,6 +11,9 @@ public class CharactersViewModel {
     // MARK: - Private Properties
     private let service: MarvelAPIProtocol
 
+    private var currentPage: Int = 0
+    private var characters: [MarvelCharacter] = []
+
     // MARK: - Properties
 
     weak var delegate: CharactersViewModelDelegate?
@@ -20,20 +23,43 @@ public class CharactersViewModel {
     init(service: MarvelAPIProtocol) {
         self.service = service
     }
-}
 
-extension CharactersViewModel: CharactersViewModelProtocol {
-    func fetchCharacters(page: Int = 0, callback: @escaping ([MarvelCharacter]) -> Void) {
+    private func getCharacters(with page: Int) {
         service.get(page: page, orderBy: "name") { [weak self] (result: Result<MarvelResponse<MarvelCharacter>, ServiceError>) in
             switch result {
             case let .failure(error):
                 switch error {
                 case .network(let errorMessage), .decodeFail(let errorMessage), .invalidURL(let errorMessage):
-                    self?.delegate?.showError(message: errorMessage ?? "")
+                    DispatchQueue.main.async {
+                        self?.delegate?.showError(message: errorMessage ?? "")
+                    }
                 }
+
             case let .success(response):
-                callback(response.data.results)
+                self?.characters += response.data.results
+                DispatchQueue.main.async {
+                    self?.delegate?.didLoadCharacters()
+                }
             }
         }
+    }
+}
+
+extension CharactersViewModel: CharactersViewModelProtocol {
+    func getCharactersCount() -> Int {
+        characters.count
+    }
+
+    func getCharacter(index: Int) -> MarvelCharacter {
+        characters[index]
+    }
+
+    func getCharacters() {
+        getCharacters(with: currentPage)
+    }
+
+    func getNextCharactersPage() {
+        currentPage += 1
+        getCharacters(with: currentPage)
     }
 }
